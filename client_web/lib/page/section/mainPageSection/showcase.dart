@@ -2,6 +2,7 @@ import 'package:client_web/design/colorSet.dart';
 import 'package:client_web/page/model/result.dart';
 import 'package:client_web/service/resultIndexGet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class ShowCase extends StatefulWidget {
@@ -33,20 +34,22 @@ class _ShowCaseState extends State<ShowCase> {
   Widget build(BuildContext context) {
     displaySize = MediaQuery.of(context).size;
     return Container(
+      alignment: Alignment.center,
       width: displaySize.width,
-      height: displaySize.height * 0.4,
+      height: displaySize.height * 0.6,
+      
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
           return Container(
-            color: ColorSet.mainColor,
-            child: Text(
-              "사진사진사진사진사진사진사진사진사진사진",
-              style: TextStyle(
-                color: Colors.white,
-              ),
+            decoration: BoxDecoration(
+            color: Colors.black,
+              border: Border.all(color: Colors.white)
             ),
+    
           );
         },
+
+        viewportFraction: 0.5,
         autoplay: true,
         itemCount: 3,
         control: new SwiperControl(

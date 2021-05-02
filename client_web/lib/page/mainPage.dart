@@ -1,4 +1,5 @@
 import 'package:client_web/design/colorSet.dart';
+import 'package:client_web/page/section/mainPageSection/introduction.dart';
 import 'package:client_web/page/section/mainPageSection/scoreboard.dart';
 import 'package:client_web/page/section/mainPageSection/showcase.dart';
 import 'package:flutter/material.dart';
@@ -18,13 +19,14 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     displaySize = MediaQuery.of(context).size;
-
+    
     return Scaffold(
-      backgroundColor: ColorSet.mainColor,
+      backgroundColor: Colors.white,
       body: Container(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          //mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            IntroDuction(),
             ShowCase(),
             ScoreBoard(),
           ],
