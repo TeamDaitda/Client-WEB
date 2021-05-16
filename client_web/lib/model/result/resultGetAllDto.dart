@@ -1,14 +1,32 @@
 // To parse this JSON data, do
 //
-//     final result = resultFromJson(jsonString);
+//     final resultGetAllDto = resultGetAllDtoFromJson(jsonString);
 
 import 'dart:convert';
 
-List<Result> resultFromJson(String str) =>
-    List<Result>.from(json.decode(str).map((x) => Result.fromJson(x)));
+ResultGetAllDto resultGetAllDtoFromJson(String str) =>
+    ResultGetAllDto.fromJson(json.decode(str));
 
-String resultToJson(List<Result> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String resultGetAllDtoToJson(ResultGetAllDto data) =>
+    json.encode(data.toJson());
+
+class ResultGetAllDto {
+  ResultGetAllDto({
+    this.result,
+  });
+
+  List<Result> result;
+
+  factory ResultGetAllDto.fromJson(Map<String, dynamic> json) =>
+      ResultGetAllDto(
+        result:
+            List<Result>.from(json["result"].map((x) => Result.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "result": List<dynamic>.from(result.map((x) => x.toJson())),
+      };
+}
 
 class Result {
   Result({

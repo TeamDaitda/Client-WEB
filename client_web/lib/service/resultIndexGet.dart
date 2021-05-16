@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:client_web/page/model/result.dart';
+
+import 'package:client_web/model/result/resultGetAllDto.dart';
 import 'package:dio/dio.dart';
 
 class GetResultIndex {
@@ -9,12 +10,12 @@ class GetResultIndex {
 
   GetResultIndex();
 
-  // Future<List<Result>> getResultIndex() async  {
-  //   var jsonToData;
-  //   url = "http://192.168.35.35:8080/result";
-  //   response = await dio.get(url);
+  Future<List<Result>> getResultIndex() async  {
+    var jsonToData;
+    url = "http://192.168.35.35:8080/result";
+    response = await dio.get(url);
 
-  //   jsonToData = jsonDecode(response.data);
-  //   // return resultFromJson();
-  // }
+    jsonToData = jsonDecode(response.data);
+    // return resultFromJson();
+  }
 }
