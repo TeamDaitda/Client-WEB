@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:client_web/design/colorSet.dart';
 import 'package:client_web/design/shadowSet.dart';
 import 'package:client_web/model/result/resultGetAllDto.dart';
 import 'package:client_web/service/resultApi.dart';
@@ -45,22 +46,22 @@ class _GalleryPageState extends State<GalleryPage> {
       body: Stack(
         children: [
           Column(
-
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 70),
-                child: Image.asset('images/final.gif',
-                width: 350,
-                height: 250,),
+                child: Image.asset(
+                  'images/final.gif',
+                  width: 350,
+                  height: 250,
+                ),
               ),
-
               Expanded(
                 child: FutureBuilder(
                   future: _resultApi.getAll(),
                   builder: (BuildContext context,
                       AsyncSnapshot<ResultGetAllDto> snapshot) {
                     if (snapshot.hasData == false) {
-                      return CircularProgressIndicator();
+                      return SizedBox();
                     } else if (snapshot.hasError) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -80,7 +81,7 @@ class _GalleryPageState extends State<GalleryPage> {
                               Future.delayed(Duration.zero, () async {
                                 _resultApi.getAll().then((value) {
                                   if (value.result.length != data.length) {
-                                    Get.offAllNamed('/galleryPage');
+                                    Get.offAllNamed('/');
                                   }
                                 });
                                 flag = false;
@@ -92,14 +93,16 @@ class _GalleryPageState extends State<GalleryPage> {
                             });
                           }
                           return Column(
-                            
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(top:250),
+                                padding: const EdgeInsets.only(top: 250),
                                 child: CachedNetworkImage(
                                   placeholder: (context, url) => Padding(
                                     padding: const EdgeInsets.all(20.0),
-                                    child: CircularProgressIndicator(),
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.black),
+                                    ),
                                   ),
                                   imageUrl: data[reverseIndex].path,
                                 ),
@@ -107,15 +110,32 @@ class _GalleryPageState extends State<GalleryPage> {
                               const SizedBox(
                                 height: 50,
                               ),
-                              Text(
-                                data[reverseIndex].id.toString() + "번째 기부자",
-                                style: TextStyle(
-                                  fontSize: 20,
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: ColorSet.mainColor.withOpacity(0.5),
+                                  boxShadow: ShadowSet.shadow(),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    data[reverseIndex].id.toString() + "번째 기부자",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
                               ),
                               Text(
                                 _categoryService.indexToCategory(
                                     data[reverseIndex].category),
+                                style: TextStyle(
+                                  fontSize: 24,
+                                ),
                               ),
                               const SizedBox(
                                 height: 20,
@@ -123,9 +143,28 @@ class _GalleryPageState extends State<GalleryPage> {
                               Text(
                                 data[reverseIndex].name,
                                 style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: 67,
+                                  fontWeight: FontWeight.w900,
                                 ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.place),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "서울특별시 종로구",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           );
@@ -152,92 +191,7 @@ class _GalleryPageState extends State<GalleryPage> {
                     print(progress);
                     return Column(
                       children: [
-                        SizedBox(height:10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 80),
-                              child: Text(
-                                "목표까지 남은 거리, ${goal - now}km",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                          Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 70),
-                              child: Text("현재까지 총 ${now}명이 기부해주셨습니다.",
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),),
-                            ),
-                          ],
-                        ),
-
-
-
-
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom:400),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                '0km',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Center(
-                                //ProgressIndicator
-                                child: Container(
-                                  width: 600,
-                                  height: 20,
-                                  child: LiquidLinearProgressIndicator(
-                                    value: progress,
-                                    valueColor: AlwaysStoppedAnimation(
-                                      Colors.black,
-                                    ),
-                                    borderColor: Colors.black,
-                                    backgroundColor: Colors.white,
-                                    borderWidth: 0.0,
-                                    borderRadius: 3.0,
-                                    direction: Axis.horizontal,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                '${goal}km',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        goalLayOut(),
                       ],
                     );
                   }
@@ -245,7 +199,87 @@ class _GalleryPageState extends State<GalleryPage> {
               ),
             ],
           ),
-          
+        ],
+      ),
+    );
+  }
+
+  Widget goalLayOut() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 100),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: ColorSet.mainColor,
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: ShadowSet.shadow(),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text(
+                    "목표까지 남은 거리",
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            "목표까지 남은 거리, ${goal - now}km. 현재까지 ${now}명이 선을 이어주셨습니다.",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              height: 2,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: Get.size.width * 0.7,
+                  height: 20,
+                  child: LiquidLinearProgressIndicator(
+                    value: progress,
+                    valueColor: AlwaysStoppedAnimation(
+                      Colors.black,
+                    ),
+                    borderColor: Colors.black,
+                    backgroundColor: Colors.white,
+                    borderWidth: 0.0,
+                    borderRadius: 3.0,
+                    direction: Axis.horizontal,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Text(
+                '${goal}km',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
