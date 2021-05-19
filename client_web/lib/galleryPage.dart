@@ -50,8 +50,8 @@ class _GalleryPageState extends State<GalleryPage> {
               Padding(
                 padding: const EdgeInsets.only(top: 70),
                 child: Image.asset('images/final.gif',
-                width: 1000,
-                height: 1000,),
+                width: 350,
+                height: 250,),
               ),
 
               Expanded(
@@ -92,14 +92,17 @@ class _GalleryPageState extends State<GalleryPage> {
                             });
                           }
                           return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            
                             children: [
-                              CachedNetworkImage(
-                                placeholder: (context, url) => Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: CircularProgressIndicator(),
+                              Padding(
+                                padding: const EdgeInsets.only(top:250),
+                                child: CachedNetworkImage(
+                                  placeholder: (context, url) => Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  imageUrl: data[reverseIndex].path,
                                 ),
-                                imageUrl: data[reverseIndex].path,
                               ),
                               const SizedBox(
                                 height: 50,
@@ -140,7 +143,7 @@ class _GalleryPageState extends State<GalleryPage> {
                     return CircularProgressIndicator();
                   } else if (snapshot.hasError) {
                     return Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(1.0),
                       child: Text('Error: ${snapshot.error}'),
                     );
                   } else {
@@ -149,19 +152,47 @@ class _GalleryPageState extends State<GalleryPage> {
                     print(progress);
                     return Column(
                       children: [
-                        Text(
-                          "목표까지 ${goal - now}km",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        SizedBox(height:10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 80),
+                              child: Text(
+                                "목표까지 남은 거리, ${goal - now}km",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
+
+                          Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 70),
+                              child: Text("현재까지 총 ${now}명이 기부해주셨습니다.",
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),),
+                            ),
+                          ],
+                        ),
+
+
+
+
                         const SizedBox(
                           height: 10,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 40),
+                          padding: const EdgeInsets.only(bottom:400),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -177,6 +208,7 @@ class _GalleryPageState extends State<GalleryPage> {
                                 width: 20,
                               ),
                               Center(
+                                //ProgressIndicator
                                 child: Container(
                                   width: 600,
                                   height: 20,
@@ -188,7 +220,7 @@ class _GalleryPageState extends State<GalleryPage> {
                                     borderColor: Colors.black,
                                     backgroundColor: Colors.white,
                                     borderWidth: 0.0,
-                                    borderRadius: 10.0,
+                                    borderRadius: 3.0,
                                     direction: Axis.horizontal,
                                   ),
                                 ),
